@@ -42,6 +42,7 @@ tailscale         # Secure mesh VPN
 # (Omarchy includes: obsidian, spotify, chromium, alacritty,
 #  1password, signal-desktop, obs-studio, libreoffice)
 # ─────────────────────────────────────────────────────────────
+ghostty           # GPU-accelerated terminal emulator
 discord           # Chat platform
 protonvpn-gui     # Proton VPN client (AUR)
 proton-mail-bridge # Proton Mail bridge (AUR)

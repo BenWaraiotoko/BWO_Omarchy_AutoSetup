@@ -172,7 +172,41 @@ fi
 log_success "Dotfiles configured"
 
 # ─────────────────────────────────────────────────────────────
-# 5. Vim minimal config
+# 5. Ghostty config
+# ─────────────────────────────────────────────────────────────
+GHOSTTY_CFG_SRC="$DOTFILES/ghostty/.config/ghostty/config"
+GHOSTTY_CFG_DIR="$HOME/.config/ghostty"
+if [[ -f "$GHOSTTY_CFG_SRC" ]]; then
+  mkdir -p "$GHOSTTY_CFG_DIR"
+  cp "$GHOSTTY_CFG_SRC" "$GHOSTTY_CFG_DIR/config"
+  log_success "Ghostty config installed → ~/.config/ghostty/config"
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 6. Hyprland keybinding: Super+T → ghostty (keep Super+Shift+T for alacritty)
+# ─────────────────────────────────────────────────────────────
+HYPR_CONF="$HOME/.config/hypr/hyprland.conf"
+if [[ -f "$HYPR_CONF" ]]; then
+  # Replace alacritty binding on Super+T with ghostty, if not already done
+  if grep -q 'bind.*SUPER.*,\s*T,\s*exec,\s*alacritty' "$HYPR_CONF"; then
+    # Add ghostty binding before the alacritty line, change alacritty to SUPER+SHIFT+T
+    sed -i \
+      's/\(bind.*SUPER.*,\s*T,\s*exec,\s*alacritty\)/bind = SUPER, T, exec, ghostty\n# bind below kept for alacritty fallback (Super+Shift+T)\nbind = SUPER SHIFT, T, exec, alacritty/' \
+      "$HYPR_CONF"
+    log_success "Hyprland: Super+T → ghostty | Super+Shift+T → alacritty"
+  elif grep -q 'bind.*SUPER.*,\s*T,\s*exec,\s*ghostty' "$HYPR_CONF"; then
+    log_info "Hyprland keybinding already set to ghostty — skipping"
+  else
+    log_warning "Could not find Super+T alacritty binding in $HYPR_CONF — add manually:"
+    log_info "  bind = SUPER, T, exec, ghostty"
+  fi
+else
+  log_warning "Hyprland config not found at $HYPR_CONF — skipping keybinding update"
+  log_info "Add manually: bind = SUPER, T, exec, ghostty"
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 7. Vim minimal config
 # ─────────────────────────────────────────────────────────────
 if [[ -f "$DOTFILES/vim/.vimrc" ]] && [[ ! -f "$HOME/.vimrc" ]]; then
   cp "$DOTFILES/vim/.vimrc" "$HOME/.vimrc"
@@ -180,13 +214,13 @@ if [[ -f "$DOTFILES/vim/.vimrc" ]] && [[ ! -f "$HOME/.vimrc" ]]; then
 fi
 
 # ─────────────────────────────────────────────────────────────
-# 6. Done
+# 8. Done
 # ─────────────────────────────────────────────────────────────
 echo ""
 echo "✅ BWO Omarchy AutoSetup complete!"
 echo ""
 echo "📝 Next steps:"
-echo "  1. Restart your terminal (or run: source ~/.bashrc)"
+echo "  1. Restart your terminal — Ghostty is now bound to Super+T (Alacritty → Super+Shift+T)"
 echo "  2. Restart Claude Code to access SuperClaude commands (type '/sc:')"
 echo "  3. If new to Vim: run 'vimtutor' first, then graduate to 'nvim'"
 echo "  4. Launch nvim once to let lazy.nvim install plugins"
