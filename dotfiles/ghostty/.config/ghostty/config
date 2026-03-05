@@ -17,6 +17,8 @@ font-style-bold-italic = Bold Italic
 window-padding-x = 8
 window-padding-y = 8
 window-decoration = true
+window-width = 120
+window-height = 36
 
 # Catppuccin Mocha Theme
 # Based on https://github.com/catppuccin/ghostty
