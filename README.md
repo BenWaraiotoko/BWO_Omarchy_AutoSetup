@@ -1,38 +1,40 @@
 # BWO-Omarchy-AutoSetup
 
-Personal post-install customization layer for [Omarchy](https://omarchy.org) — a beautiful, modern & opinionated Linux distribution by DHH.
+Personal post-install customization layer for [Omarchy](https://omarchy.org) — a keyboard-driven Linux distribution by DHH built on Arch, Hyprland, and Neovim.
 
 This project installs extra packages and personal dotfiles **on top of** a working Omarchy installation, mirroring the workflow from [BWO-MacAutoSetup](https://github.com/BenWaraiotoko/BWO-MacAutoSetup) but adapted for Linux/Omarchy.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [basecamp/omarchy](https://github.com/basecamp/omarchy) — the foundation this builds on
 - [BenWaraiotoko/BWO-MacAutoSetup](https://github.com/BenWaraiotoko/BWO-MacAutoSetup) — the macOS counterpart
 
 ---
 
-## ✨ What This Adds
+## What This Adds
 
-On top of everything Omarchy already provides (Hyprland WM, Alacritty, Neovim/omarchy-nvim, LazyGit, Obsidian, Spotify, 1Password, Claude Code, Docker, etc.), this setup adds:
+On top of everything Omarchy already provides (Hyprland, Alacritty, Neovim/omarchy-nvim, LazyGit, Obsidian, Spotify, 1Password, Claude Code, Docker, etc.), this setup adds:
 
 **Extra CLI Tools**
 - `lazysql` — terminal SQL client TUI
-- `yq` — YAML processor
-- `delta` — beautiful git diffs
+- `go-yq` — YAML processor (binary: `yq`)
+- `git-delta` — beautiful git diffs (binary: `delta`)
 - `csvlens` — interactive CSV viewer
 - `glow` — Markdown renderer in terminal
 - `chafa` — render images in terminal
 - `ranger` — VIM-inspired file manager
 
 **Extra Languages & Runtimes**
-- `nodejs` / `npm` / `nvm`
+- `nodejs`, `npm`, `nvm`
 - `python-pipx` for isolated CLI tool installs
 
 **Cloud & DevOps**
 - `aws-cli-v2`, `kubectl`, `tailscale`
 
 **Extra GUI Apps**
-- Discord, ProtonVPN, Proton Mail Bridge, Postman, Notion
+- `ghostty` — GPU-accelerated terminal (Super+T, Alacritty moves to Super+Shift+T)
+- `zed` — fast, collaborative code editor
+- `discord`, `proton-vpn-gtk-app`, `protonmail-bridge`, `postman-bin`, `notion-app-electron`
 
 **SuperClaude Framework**
 - 30+ slash commands for Claude Code (`/sc:analyze`, `/sc:implement`, etc.)
@@ -41,12 +43,14 @@ On top of everything Omarchy already provides (Hyprland WM, Alacritty, Neovim/om
 **Personal Dotfiles**
 - Bash aliases & exports (compatible with Omarchy's bash environment)
 - Neovim: Catppuccin Mocha theme + beginner-friendly which-key config
+- Ghostty: Catppuccin Mocha theme, JetBrainsMono Nerd Font
+- Zed: Catppuccin Mocha theme, JetBrainsMono Nerd Font, Ollama integration
 - Minimal Vim config for learning
 - SuperClaude commands for Claude Code
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -64,16 +68,18 @@ cd ~/Projects/BWO-Omarchy-AutoSetup
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 BWO-Omarchy-AutoSetup/
 ├── install.sh              # Main setup script
 ├── bwo-packages.txt        # Extra packages (pacman/AUR)
 ├── dotfiles/
-│   ├── bash/               # Bash aliases & exports (→ ~/.bashrc.d/)
+│   ├── bash/               # Bash aliases & exports (-> ~/.bashrc.d/)
 │   ├── vim/                # Minimal .vimrc for learning
 │   ├── nvim/               # Neovim plugin configs (merged into ~/.config/nvim/)
+│   ├── ghostty/            # Ghostty config (-> ~/.config/ghostty/)
+│   ├── zed/                # Zed config (-> ~/.config/zed/)
 │   ├── superclaude/        # SuperClaude Framework commands
 │   └── obsidian/           # Obsidian vault config (copied, not stowed)
 └── docs/
@@ -83,50 +89,54 @@ BWO-Omarchy-AutoSetup/
 
 ---
 
-## 🛠 What Gets Installed
+## What Gets Installed
 
 ### Package Strategy
 
-Omarchy already includes most tools. `bwo-packages.txt` only adds what's missing:
+Omarchy already includes most tools. `bwo-packages.txt` only adds what's missing.
 
-| Category | Already in Omarchy | Added by BWO |
-|---|---|---|
-| Terminal | alacritty, bat, btop, eza, fzf, fastfetch | lazysql, yq, delta, csvlens, glow, chafa, ranger |
-| Editors | neovim (omarchy-nvim) | minimal .vimrc for learning |
-| Version Control | lazygit, github-cli | delta |
-| AI | claude-code, opencode | SuperClaude Framework, ollama |
-| Security | 1password, 1password-cli | protonvpn-gui, proton-mail-bridge |
-| Containers | docker, lazydocker | — |
-| Productivity | obsidian, spotify | discord, notion, postman |
-| Languages | ruby, rust | nodejs, npm, nvm, python-pipx |
-| DevOps | — | kubectl, aws-cli-v2, tailscale |
+Note: some package names differ from the binary name — this is an Arch convention.
+
+| Tool | Package name | Binary | Source |
+|------|-------------|--------|--------|
+| YAML processor | `go-yq` | `yq` | official |
+| Git diff viewer | `git-delta` | `delta` | official |
+| Proton VPN | `proton-vpn-gtk-app` | — | official |
+| Proton Mail Bridge | `protonmail-bridge` | — | official |
+| Postman | `postman-bin` | — | AUR |
+| Notion | `notion-app-electron` | — | AUR |
+| lazysql | `lazysql` | — | AUR |
+| Everything else | same name | — | official |
 
 ### Dotfile Strategy
 
 Unlike the macOS version (which used GNU Stow), this project uses **copy-based deployment** compatible with Omarchy's existing config management:
 
-- Bash customizations → `~/.bashrc.d/` (sourced by `~/.bashrc`)
-- Neovim plugins → `~/.config/nvim/lua/plugins/` (merged, not replaced)
-- Vim config → `~/.vimrc`
-- SuperClaude → `~/.claude/commands/sc/`
+- Bash customizations -> `~/.bashrc.d/` (sourced by `~/.bashrc`)
+- Neovim plugins -> `~/.config/nvim/lua/plugins/` (merged, not replaced)
+- Ghostty config -> `~/.config/ghostty/config`
+- Zed config -> `~/.config/zed/settings.json`
+- Vim config -> `~/.vimrc`
+- SuperClaude -> `~/.claude/commands/sc/`
 
 ---
 
-## 🔧 Key Components
+## Key Components
+
+### Terminal Setup
+
+Omarchy ships with **Alacritty**. This setup adds **Ghostty** alongside it:
+
+- `Super + T` — Ghostty
+- `Super + Shift + T` — Alacritty (fallback)
+
+Ghostty config: Catppuccin Mocha theme, JetBrainsMono Nerd Font 16px, 120x36 default window size.
 
 ### Shell Environment
 
 Omarchy uses **bash** with [starship](https://starship.rs) prompt. BWO adds:
 - Personal aliases in `~/.bashrc.d/bwo-aliases.bash`
 - PATH and environment exports in `~/.bashrc.d/bwo-exports.bash`
-
-### Window Manager (Hyprland)
-
-Omarchy already configures Hyprland with keyboard-driven navigation. Default keybindings:
-- `Super + Return` — open terminal
-- `Super + 1-9` — switch workspaces
-- `Super + Q` — close window
-- See Omarchy docs for full reference
 
 ### Editor Setup
 
@@ -135,8 +145,20 @@ Omarchy already configures Hyprland with keyboard-driven navigation. Default key
 - Faster which-key hints (200ms)
 
 **Minimal Vim** at `~/.vimrc` — zero plugins, for learning fundamentals:
-1. Start: `vimtutor`
-2. Graduate to `nvim` when comfortable
+1. Start with `vimtutor`
+2. Move to `nvim` when comfortable
+
+### Zed Editor
+
+Zed config: Catppuccin Mocha theme, JetBrainsMono Nerd Font, VSCode keymap.
+
+AI integration via Ollama (local) — uses `devstral-small-2` for both the agent and inline edit predictions. Make sure Ollama is running and the model is pulled:
+
+```bash
+ollama pull devstral-small-2
+```
+
+The config skips overwriting if `~/.config/zed/settings.json` already exists, so your existing Zed settings are safe.
 
 ### SuperClaude Framework
 
@@ -146,16 +168,16 @@ AI-enhanced development workflow:
 
 ---
 
-## 📝 Post-Install Steps
+## Post-Install Steps
 
-1. **Restart terminal** — `source ~/.bashrc` or open a new terminal
-2. **Restart Claude Code** — to load SuperClaude commands
-3. **Launch nvim once** — lets lazy.nvim install plugins automatically
-4. **Start with vimtutor** — if new to Vim: `vimtutor`
+1. Restart your terminal — Ghostty is now on Super+T, Alacritty on Super+Shift+T
+2. Restart Claude Code to load SuperClaude commands
+3. Launch `nvim` once to let lazy.nvim install plugins automatically
+4. Run `vimtutor` if you're new to Vim
 
 ---
 
-## 🔍 Troubleshooting
+## Troubleshooting
 
 **Package install fails**
 ```bash
@@ -168,13 +190,8 @@ yay -Ss <search-term>
 
 **Bash aliases not loading**
 ```bash
-# Check ~/.bashrc.d/ was created
 ls ~/.bashrc.d/
-
-# Manually source
 source ~/.bashrc.d/bwo-aliases.bash
-
-# Ensure ~/.bashrc has the sourcing block
 grep -n 'bashrc.d' ~/.bashrc
 ```
 
@@ -195,13 +212,8 @@ nvim  # first launch auto-installs via lazy.nvim
 
 ---
 
-## 🔗 Related Projects
+## Related Projects
 
 - [basecamp/omarchy](https://github.com/basecamp/omarchy) — Omarchy Linux
 - [BenWaraiotoko/BWO-MacAutoSetup](https://github.com/BenWaraiotoko/BWO-MacAutoSetup) — macOS counterpart
-- [LazyVim/LazyVim](https://github.com/LazyVim/LazyVim) — Neovim distribution
-- [SuperClaude](https://github.com/NLaundry/SuperClaude) — Claude Code enhancement
-
----
-
-*Built for Omarchy Linux | Keyboard-Driven Workflow | Terminal-First Development*
+- [NLaundry/SuperClaude](https://github.com/NLaundry/SuperClaude) — Claude Code enhancement framework

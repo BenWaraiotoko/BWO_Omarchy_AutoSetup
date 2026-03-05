@@ -1,0 +1,49 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (ctrl-shift-p)
+{
+  "agent": {
+    "default_model": {
+      "provider": "ollama",
+      "model": "devstral-small-2:latest"
+    },
+    "favorite_models": [
+      {
+        "provider": "ollama",
+        "model": "devstral-small-2:latest"
+      }
+    ],
+    "model_parameters": []
+  },
+  "edit_predictions": {
+    "ollama": {
+      "model": "devstral-small-2:latest"
+    },
+    "provider": "ollama"
+  },
+  "telemetry": {
+    "diagnostics": true,
+    "metrics": false
+  },
+  "session": {
+    "trust_all_worktrees": true
+  },
+  "terminal": {
+    "font_size": 16.0
+  },
+  "base_keymap": "VSCode",
+  "buffer_font_family": "JetBrainsMono Nerd Font",
+  "icon_theme": "Catppuccin Mocha",
+  "ui_font_size": 16,
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "Catppuccin Mocha"
+  }
+}

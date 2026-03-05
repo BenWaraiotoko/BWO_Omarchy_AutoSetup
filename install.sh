@@ -183,7 +183,22 @@ if [[ -f "$GHOSTTY_CFG_SRC" ]]; then
 fi
 
 # ─────────────────────────────────────────────────────────────
-# 6. Hyprland keybinding: Super+T → ghostty (keep Super+Shift+T for alacritty)
+# 6. Zed config
+# ─────────────────────────────────────────────────────────────
+ZED_CFG_SRC="$DOTFILES/zed/.config/zed/settings.json"
+ZED_CFG_DIR="$HOME/.config/zed"
+if [[ -f "$ZED_CFG_SRC" ]]; then
+  mkdir -p "$ZED_CFG_DIR"
+  if [[ ! -f "$ZED_CFG_DIR/settings.json" ]]; then
+    cp "$ZED_CFG_SRC" "$ZED_CFG_DIR/settings.json"
+    log_success "Zed config installed → ~/.config/zed/settings.json"
+  else
+    log_info "Skipping Zed config — ~/.config/zed/settings.json already exists"
+  fi
+fi
+
+# ─────────────────────────────────────────────────────────────
+# 8. Hyprland keybinding: Super+T → ghostty (keep Super+Shift+T for alacritty)
 # ─────────────────────────────────────────────────────────────
 HYPR_CONF="$HOME/.config/hypr/hyprland.conf"
 if [[ -f "$HYPR_CONF" ]]; then
@@ -206,7 +221,7 @@ else
 fi
 
 # ─────────────────────────────────────────────────────────────
-# 7. Vim minimal config
+# 9. Vim minimal config
 # ─────────────────────────────────────────────────────────────
 if [[ -f "$DOTFILES/vim/.vimrc" ]] && [[ ! -f "$HOME/.vimrc" ]]; then
   cp "$DOTFILES/vim/.vimrc" "$HOME/.vimrc"
@@ -214,7 +229,7 @@ if [[ -f "$DOTFILES/vim/.vimrc" ]] && [[ ! -f "$HOME/.vimrc" ]]; then
 fi
 
 # ─────────────────────────────────────────────────────────────
-# 8. Done
+# 10. Done
 # ─────────────────────────────────────────────────────────────
 echo ""
 echo "✅ BWO Omarchy AutoSetup complete!"
