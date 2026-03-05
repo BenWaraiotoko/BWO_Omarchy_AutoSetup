@@ -59,8 +59,8 @@ fi
 PACKAGES_FILE="$SCRIPT_DIR/bwo-packages.txt"
 if [[ -f "$PACKAGES_FILE" ]]; then
   echo "Installing extra packages from bwo-packages.txt..."
-  # Read non-comment, non-empty lines
-  mapfile -t PACKAGES < <(grep -v '^\s*#' "$PACKAGES_FILE" | grep -v '^\s*$')
+  # Read non-comment, non-empty lines; strip inline comments and whitespace
+  mapfile -t PACKAGES < <(grep -v '^\s*#' "$PACKAGES_FILE" | grep -v '^\s*$' | sed 's/\s*#.*//' | awk '{print $1}')
   if [[ ${#PACKAGES[@]} -gt 0 ]]; then
     yay -S --needed --noconfirm "${PACKAGES[@]}" || log_warning "Some packages failed to install — continuing"
     log_success "Extra packages installed"
