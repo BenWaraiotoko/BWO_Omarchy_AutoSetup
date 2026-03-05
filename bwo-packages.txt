@@ -1,0 +1,68 @@
+# BWO Extra Packages for Omarchy
+# ─────────────────────────────────────────────────────────────
+# These are ADDITIONAL packages on top of what Omarchy installs
+# by default. Omarchy already includes: bat, btop, eza, fzf,
+# fastfetch, github-cli, jq, lazygit, neovim/omarchy-nvim,
+# obsidian, ripgrep, spotify, tmux, 1password, 1password-cli,
+# claude-code, docker, lazydocker, etc.
+#
+# Format: one package name per line (pacman/AUR package names)
+# Comments start with #
+
+# ─────────────────────────────────────────────────────────────
+# CLI Tools & Utilities
+# (not already in Omarchy base)
+# ─────────────────────────────────────────────────────────────
+lazysql           # Terminal SQL client (TUI)
+yq                # YAML processor (like jq for YAML)
+delta             # Fancy git diff viewer
+csvlens           # Interactive CSV viewer in terminal
+glow              # Markdown renderer for terminal
+chafa             # Render images in terminal
+ranger            # VIM-inspired terminal file manager
+
+# ─────────────────────────────────────────────────────────────
+# Languages & Runtimes
+# (Omarchy includes ruby, rust; add what's missing)
+# ─────────────────────────────────────────────────────────────
+python-pipx       # Install Python CLI tools in isolated envs
+nodejs            # Node.js runtime
+npm               # Node package manager
+nvm               # Node Version Manager (AUR)
+
+# ─────────────────────────────────────────────────────────────
+# Cloud & DevOps
+# ─────────────────────────────────────────────────────────────
+aws-cli-v2        # AWS CLI (AUR)
+kubectl           # Kubernetes CLI
+tailscale         # Secure mesh VPN
+
+# ─────────────────────────────────────────────────────────────
+# GUI Applications
+# (Omarchy includes: obsidian, spotify, chromium, alacritty,
+#  1password, signal-desktop, obs-studio, libreoffice)
+# ─────────────────────────────────────────────────────────────
+discord           # Chat platform
+protonvpn-gui     # Proton VPN client (AUR)
+proton-mail-bridge # Proton Mail bridge (AUR)
+postman-bin       # API testing (AUR)
+notion-app-electron # Notion (AUR)
+# resilio-sync    # P2P file sync — install manually if needed
+
+# ─────────────────────────────────────────────────────────────
+# Fonts
+# (Omarchy includes ttf-jetbrains-mono-nerd)
+# ─────────────────────────────────────────────────────────────
+# ttf-jetbrains-mono-nerd  # Already in Omarchy base
+
+# ─────────────────────────────────────────────────────────────
+# AI / ML Tools
+# ─────────────────────────────────────────────────────────────
+ollama            # Run local LLMs
+# claude-code     # Already in Omarchy base
+
+# ─────────────────────────────────────────────────────────────
+# GNU Utilities
+# (Most are already available on Arch/Omarchy by default)
+# ─────────────────────────────────────────────────────────────
+stow              # Symlink farm manager (useful if you want GNU Stow)
